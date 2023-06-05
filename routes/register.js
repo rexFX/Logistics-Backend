@@ -2,10 +2,9 @@ const router = require('express').Router();
 const User = require('../models/user');
 const { RegistrationValidation, userValidationResult } = require('../middlewares/validate');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 
 router.post('/register', RegistrationValidation, userValidationResult, async (req, res) => {
-  const { name, email, address, password, phone, countryCode, pincode, type } = req.body;
+  const { name, email, address, password, phone, countryCode, pincode, role } = req.body;
 
   const user = await User.findOne({ email });
   const ph = await User.findOne({ phone });
@@ -22,7 +21,7 @@ router.post('/register', RegistrationValidation, userValidationResult, async (re
       phone,
       countryCode,
       pincode,
-      userType: type
+      role
     });
 
     await newUser.save()

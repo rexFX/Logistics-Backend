@@ -26,11 +26,12 @@ router.post('/login', LoginValidation, userValidationResult, async (req, res) =>
         res.cookie('token', token, { expire: new Date() + 9999, httpOnly: true });
         return res.status(200).json({
           success: true,
-          token,
+          token: token,
           details: {
             name: user.name,
             email: user.email,
-            type: user.userType,
+            role: user.role,
+            address: user.address,
           }
         });
       }
