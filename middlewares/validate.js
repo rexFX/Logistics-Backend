@@ -24,7 +24,17 @@ const OrderRequestValidation = [
   check('to').trim().notEmpty().withMessage('Destination ("To") should not be empty'),
   check('quantity').trim().notEmpty().withMessage('Select proper quantity'),
   check('address').trim().notEmpty().withMessage('Address is required'),
+  check('transporterName').trim().notEmpty().withMessage('Transporter name is required'),
+  check('manufacturerName').trim().notEmpty().withMessage('Manufacturer name is required'),
 ];
+
+const ValidateBeforeSendingMessage = [
+  check('orderID').trim().notEmpty().withMessage('OrderID should not be empty'),
+  check('amount').trim().notEmpty().isNumeric().withMessage('Invalid Amount'),
+  check('writtenBy').trim().notEmpty().withMessage('Message written by is required'),
+  check('request').trim().notEmpty().isBoolean().withMessage('Invalid request'),
+  check('paid').trim().notEmpty().isBoolean().withMessage('Invalid paid variable'),
+]
 
 const userValidationResult = (req, res, next) => {
   const result = validationResult(req).array();
@@ -34,4 +44,4 @@ const userValidationResult = (req, res, next) => {
   res.status(400).json({ success: false, message: error });
 }
 
-module.exports = { RegistrationValidation, LoginValidation, OrderRequestValidation, userValidationResult };
+module.exports = { RegistrationValidation, LoginValidation, OrderRequestValidation, ValidateBeforeSendingMessage, userValidationResult };

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const validateAccess = require('../middlewares/validateAcess');
+const validateAccess = require('../middlewares/validateAccess');
 const User = require('../models/user');
 
 router.get('/fetchTransportersList', validateAccess, async (req, res) => {

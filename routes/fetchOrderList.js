@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const validateAccess = require('../middlewares/validateAcess');
+const validateAccess = require('../middlewares/validateAccess');
 const Message = require('../models/messages');
 
 router.get('/fetchOrderList', validateAccess, async (req, res) => {

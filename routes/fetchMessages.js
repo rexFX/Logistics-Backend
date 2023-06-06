@@ -1,14 +1,12 @@
 const router = require('express').Router();
-const validateAccess = require('../middlewares/validateAcess');
+const validateAccess = require('../middlewares/validateAccess');
 const Message = require('../models/messages');
 
 router.get('/fetchMessages', validateAccess, async (req, res) => {
-  const { from, to, orderID } = req.query;
+  const { orderID } = req.query;
   try {
-    //from = manufacturer, to = transporter
-    const message = await Message.find({ from: from, to: to, orderID: orderID });
-
-    if (!message.length) return res.status(200).json({ success: false, message: 'No messages found' });
+    const message = await Message.findOne({ orderID: orderID });
+    if (!message) return res.status(200).json({ success: false, message: 'No messages found' });
     else return res.status(200).json({ success: true, message: message });
   }
   catch (err) {

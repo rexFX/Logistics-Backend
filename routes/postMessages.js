@@ -1,23 +1,20 @@
 const router = require('express').Router();
-const validateAccess = require('../middlewares/validateAcess');
+const { ValidateBeforeSendingMessage, userValidationResult } = require('../middlewares/validate');
+const validateAccess = require('../middlewares/validateAccess');
 const Message = require('../models/messages');
 const ShortUniqueId = require('short-unique-id');
 
-router.post('/postMessages', validateAccess, async (req, res) => {
-  const { from, to, text, orderID, writtenBy, request, amount, paid } = req.body;
-  //from = manufacturer, to = transporter
+router.post('/postMessages', validateAccess, ValidateBeforeSendingMessage, userValidationResult, async (req, res) => {
+  const { orderID, writtenBy, request, amount, paid, text } = req.body;
 
   const uid = new ShortUniqueId({ length: 10 });
+  if (!orderID.length) orderID = uid();
   try {
     const myMessage = {
-      from: from,
-      to: to,
       orderID: orderID,
       messages: [{
         id: uid(),
         text: text,
-        from: from,
-        to: to,
         writtenBy: writtenBy,
         request: request,
         amount: amount,
@@ -25,7 +22,7 @@ router.post('/postMessages', validateAccess, async (req, res) => {
       }]
     }
 
-    const message = await Message.findOne({ from: from, to: to, orderID: orderID });
+    const message = await Message.findOne({ orderID: orderID });
     if (!message) await new Message(myMessage).save();
     else {
       message.messages.push(myMessage.messages[0]);

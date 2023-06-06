@@ -3,19 +3,21 @@ const mongoose = require('mongoose');
 const messageSchema = new mongoose.Schema({
   from: {
     type: String,
-    required: true
   },
   to: {
     type: String,
-    required: true
   },
   manufacturer: {
     type: String,
-    required: true
   },
   transporter: {
     type: String,
-    required: true
+  },
+  transporterName: {
+    type: String,
+  },
+  manufacturerName: {
+    type: String,
   },
   orderID: {
     type: String,
@@ -23,11 +25,9 @@ const messageSchema = new mongoose.Schema({
   },
   address: {
     type: String,
-    required: true
   },
   quantity: {
     type: String,
-    required: true
   },
   messages: {
     type: Array,
