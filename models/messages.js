@@ -29,10 +29,33 @@ const messageSchema = new mongoose.Schema({
   quantity: {
     type: String,
   },
-  messages: {
-    type: Array,
-    required: true
-  },
+  messages: [
+    {
+      id: {
+        type: String,
+        required: true
+      },
+      text: {
+        type: String,
+      },
+      writtenBy: {
+        type: String,
+        required: true
+      },
+      request: {
+        type: Boolean,
+        required: true
+      },
+      amount: {
+        type: Number,
+        required: true
+      },
+      paid: {
+        type: Boolean,
+        required: true
+      }
+    }
+  ],
 });
 
 module.exports = mongoose.model('Message', messageSchema);

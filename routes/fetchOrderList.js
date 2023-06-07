@@ -3,7 +3,7 @@ const validateAccess = require('../middlewares/validateAccess');
 const Message = require('../models/messages');
 
 router.get('/fetchOrderList', validateAccess, async (req, res) => {
-  const email = req.query.from;
+  const email = req.query.email;
   try {
     const orderList = await Message.find({ $or: [{ manufacturer: email }, { transporter: email }] });
     if (!orderList.length) return res.status(200).json({ success: false, message: [] });

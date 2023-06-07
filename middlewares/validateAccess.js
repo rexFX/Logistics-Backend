@@ -5,7 +5,7 @@ function validateAccess(req, res, next) {
   if (!token) return res.status(401).json({ success: false, message: 'Access denied' });
   try {
     const verified = jwt.verify(token, process.env.JWT_SECRET);
-    if (req.body.verification !== verified.email && req.query.verification !== verified.email) return res.status(401).json({ success: false, message: 'Access denied' });
+    if (req.body.verification !== verified.email && req.query.email !== verified.email) return res.status(401).json({ success: false, message: 'Access denied' });
     next();
   }
   catch (err) {

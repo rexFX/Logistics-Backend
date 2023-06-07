@@ -6,7 +6,6 @@ const ShortUniqueId = require('short-unique-id');
 
 router.post('/postMessages', validateAccess, ValidateBeforeSendingMessage, userValidationResult, async (req, res) => {
   const { orderID, writtenBy, request, amount, paid, text } = req.body;
-
   const uid = new ShortUniqueId({ length: 10 });
   if (!orderID.length) orderID = uid();
   try {
