@@ -12,9 +12,6 @@ const io = new Server(server, {
   }
 });
 
-
-
-
 const PORT = process.env.PORT || 4000;
 
 const registration = require('./routes/register');
