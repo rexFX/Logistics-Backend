@@ -5,14 +5,14 @@ const Message = require('../models/messages');
 const ShortUniqueId = require('short-unique-id');
 
 router.post('/postMessages', validateAccess, ValidateBeforeSendingMessage, userValidationResult, async (req, res) => {
-  const { orderID, writtenBy, request, amount, paid, text } = req.body;
   const uid = new ShortUniqueId({ length: 10 });
+  const { id, orderID, writtenBy, request, amount, paid, text } = req.body;
   if (!orderID.length) orderID = uid();
   try {
     const myMessage = {
       orderID: orderID,
       messages: [{
-        id: uid(),
+        id: id,
         text: text,
         writtenBy: writtenBy,
         request: request,

@@ -21,23 +21,28 @@ const postMessages = require('./routes/postMessages');
 const transporterList = require('./routes/fetchTransportersList');
 const orderList = require('./routes/fetchOrderList');
 const postOrderMessages = require('./routes/postOrderMessages');
+const pay = require('./routes/pay');
 
 app.use(cors());
 app.use(express.json());
-app.use('/', require('./socketio')(io));
 
 
 app.get('/', (req, res) => {
   res.send('Server up and running');
 });
 
+app.use('/api/', (req, res, next) => {
+  req.io = io;
+  next();
+}, login);
+
 app.use('/api/', registration);
-app.use('/api/', login);
 app.use('/api/', fetchMessages);
 app.use('/api/', postMessages);
 app.use('/api/', transporterList);
 app.use('/api/', orderList);
 app.use('/api/', postOrderMessages);
+app.use('/api/', pay);
 
 
 const mongo = async () => await mongoose.connect(process.env.MONGO_DB);

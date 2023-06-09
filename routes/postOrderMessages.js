@@ -2,11 +2,9 @@ const router = require('express').Router();
 const { OrderRequestValidation, userValidationResult } = require('../middlewares/validate');
 const validateAccess = require('../middlewares/validateAccess');
 const Message = require('../models/messages');
-const ShortUniqueId = require('short-unique-id');
 
 router.post('/postOrderMessages', validateAccess, OrderRequestValidation, userValidationResult, async (req, res) => {
-  const { from, to, orderID, address, quantity, transporter, manufacturer, transporterName, manufacturerName } = req.body;
-  const uid = new ShortUniqueId({ length: 10 });
+  const { id, from, to, orderID, address, quantity, transporter, manufacturer, transporterName, manufacturerName } = req.body;
   try {
     const newOrder = new Message({
       from: from,
@@ -19,7 +17,7 @@ router.post('/postOrderMessages', validateAccess, OrderRequestValidation, userVa
       transporter: transporter,
       manufacturer: manufacturer,
       messages: [{
-        id: uid(),
+        id: id,
         text: `Order Request (OrderID: ${orderID}): I have to deliver ${quantity} units of goods to ${to}. Pickup is ${from}. Please let me know if you are interested in delivering this order.`,
         from: from,
         to: to,
